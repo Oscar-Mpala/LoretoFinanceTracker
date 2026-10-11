@@ -55,7 +55,7 @@
                           <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="btnOpenExpense" pref="280" max="32767" attributes="0"/>
-                              <Component id="btnopenReports" pref="280" max="32767" attributes="0"/>
+                              <Component id="btnOpenReports" pref="280" max="32767" attributes="0"/>
                               <Component id="btnOpenIncome" alignment="0" pref="280" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -74,7 +74,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnOpenExpense" min="-2" pref="53" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="btnopenReports" min="-2" pref="53" max="-2" attributes="0"/>
+                  <Component id="btnOpenReports" min="-2" pref="53" max="-2" attributes="0"/>
                   <EmptySpace pref="27" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -89,15 +89,15 @@
             <Property name="text" type="java.lang.String" value="LHS Income &amp; Expense Tracker"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnopenReports">
+        <Component class="javax.swing.JButton" name="btnOpenReports">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="18" style="1"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Analytics"/>
+            <Property name="text" type="java.lang.String" value="Reports and Analytics"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnopenReportsActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpenReportsActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnOpenIncome">

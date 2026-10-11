@@ -30,7 +30,7 @@ public class DashboardForm extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnopenReports = new javax.swing.JButton();
+        btnOpenReports = new javax.swing.JButton();
         btnOpenIncome = new javax.swing.JButton();
         btnOpenExpense = new javax.swing.JButton();
 
@@ -39,9 +39,9 @@ public class DashboardForm extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setText("LHS Income & Expense Tracker");
 
-        btnopenReports.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        btnopenReports.setText("Analytics");
-        btnopenReports.addActionListener(this::btnopenReportsActionPerformed);
+        btnOpenReports.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnOpenReports.setText("Reports and Analytics");
+        btnOpenReports.addActionListener(this::btnOpenReportsActionPerformed);
 
         btnOpenIncome.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnOpenIncome.setText("Income");
@@ -64,7 +64,7 @@ public class DashboardForm extends javax.swing.JFrame {
                         .addGap(60, 60, 60)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnOpenExpense, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addComponent(btnopenReports, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                            .addComponent(btnOpenReports, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                             .addComponent(btnOpenIncome, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
@@ -78,7 +78,7 @@ public class DashboardForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnOpenExpense, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnopenReports, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnOpenReports, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
@@ -102,11 +102,11 @@ public class DashboardForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnopenReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnopenReportsActionPerformed
+    private void btnOpenReportsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenReportsActionPerformed
         ReportsForm reports = new ReportsForm();
         reports.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_btnopenReportsActionPerformed
+    }//GEN-LAST:event_btnOpenReportsActionPerformed
 
     private void btnOpenIncomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenIncomeActionPerformed
         IncomeForm income = new IncomeForm();
@@ -148,7 +148,7 @@ public class DashboardForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOpenExpense;
     private javax.swing.JButton btnOpenIncome;
-    private javax.swing.JButton btnopenReports;
+    private javax.swing.JButton btnOpenReports;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
