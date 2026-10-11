@@ -1,4 +1,4 @@
-package formstest;
+package loretofinance;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
