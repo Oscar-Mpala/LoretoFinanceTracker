@@ -34,12 +34,9 @@ public class ReportsForm extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnCal = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        lblIncome = new javax.swing.JLabel();
-        lblIncome1 = new javax.swing.JLabel();
-        lblIncome2 = new javax.swing.JLabel();
-        lblIncome3 = new javax.swing.JLabel();
-        lblIncome4 = new javax.swing.JLabel();
-        lblIncome5 = new javax.swing.JLabel();
+        lblTotalIncome = new javax.swing.JLabel();
+        lblTotalExpense = new javax.swing.JLabel();
+        lblNetBalance = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,68 +54,44 @@ public class ReportsForm extends javax.swing.JFrame {
 
         btnCal.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnCal.setText("Calculate Balance");
+        btnCal.addActionListener(this::btnCalActionPerformed);
 
         btnBack.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnBack.setText("Back");
         btnBack.addActionListener(this::btnBackActionPerformed);
 
-        lblIncome.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lblIncome.setText("$");
+        lblTotalIncome.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lblTotalIncome.setText("-");
 
-        lblIncome1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lblIncome1.setText("-");
+        lblTotalExpense.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lblTotalExpense.setText("-");
 
-        lblIncome2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lblIncome2.setText("$");
-
-        lblIncome3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lblIncome3.setText("-");
-
-        lblIncome4.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lblIncome4.setText("$");
-
-        lblIncome5.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        lblIncome5.setText("-");
+        lblNetBalance.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        lblNetBalance.setText("-");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(162, 162, 162)
+                .addComponent(jLabel1))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(71, 71, 71)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(162, 162, 162)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblIncome)
-                                .addGap(7, 7, 7)
-                                .addComponent(lblIncome1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblIncome4)
-                                        .addGap(7, 7, 7)
-                                        .addComponent(lblIncome5, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblIncome2)
-                                        .addGap(7, 7, 7)
-                                        .addComponent(lblIncome3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(105, 105, 105))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCal, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(130, Short.MAX_VALUE))
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblTotalExpense, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                    .addComponent(lblTotalIncome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNetBalance, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(93, 93, 93)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCal, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,18 +101,14 @@ public class ReportsForm extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(lblIncome)
-                    .addComponent(lblIncome1))
+                    .addComponent(lblTotalIncome))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(lblIncome2)
-                    .addComponent(lblIncome3))
+                    .addComponent(lblTotalExpense))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblIncome4)
-                        .addComponent(lblIncome5))
+                    .addComponent(lblNetBalance)
                     .addComponent(jLabel3))
                 .addGap(38, 38, 38)
                 .addComponent(btnCal, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -157,6 +126,20 @@ public class ReportsForm extends javax.swing.JFrame {
         dashboard.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnCalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalActionPerformed
+        // 1. Fetch the exact totals from the MySQL database using the DAO
+        double totalIncome = ReportDAO.getTotalIncome();
+        double totalExpense = ReportDAO.getTotalExpense();
+
+        // 2. Calculate the final net balance
+        double netBalance = totalIncome - totalExpense;
+
+        // 3. Update the UI labels (formatting to 2 decimal places for clean currency)
+        lblTotalIncome.setText("$ " + String.format("%.2f", totalIncome));
+        lblTotalExpense.setText("$ " + String.format("%.2f", totalExpense));
+        lblNetBalance.setText("$ " + String.format("%.2f", netBalance));
+    }//GEN-LAST:event_btnCalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,11 +173,8 @@ public class ReportsForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel lblIncome;
-    private javax.swing.JLabel lblIncome1;
-    private javax.swing.JLabel lblIncome2;
-    private javax.swing.JLabel lblIncome3;
-    private javax.swing.JLabel lblIncome4;
-    private javax.swing.JLabel lblIncome5;
+    private javax.swing.JLabel lblNetBalance;
+    private javax.swing.JLabel lblTotalExpense;
+    private javax.swing.JLabel lblTotalIncome;
     // End of variables declaration//GEN-END:variables
 }

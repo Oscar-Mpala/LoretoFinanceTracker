@@ -4,6 +4,8 @@
  */
 package formstest;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author oscar
@@ -17,6 +19,7 @@ public class ExpenseForm extends javax.swing.JFrame {
      */
     public ExpenseForm() {
         initComponents();
+        ExpenseDAO.loadExpenseData(tblExpense);
     }
 
     /**
@@ -34,7 +37,7 @@ public class ExpenseForm extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtSource = new javax.swing.JTextField();
+        txtCategory = new javax.swing.JTextField();
         txtDate = new javax.swing.JTextField();
         txtAmount = new javax.swing.JTextField();
         txtDescription = new javax.swing.JTextField();
@@ -45,7 +48,7 @@ public class ExpenseForm extends javax.swing.JFrame {
         btnSearch = new javax.swing.JButton();
         txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblIncome = new javax.swing.JTable();
+        tblExpense = new javax.swing.JTable();
         btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -64,9 +67,9 @@ public class ExpenseForm extends javax.swing.JFrame {
         jLabel5.setText("Description:");
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel6.setText("Source:");
+        jLabel6.setText("Category:");
 
-        txtSource.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtCategory.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         txtDate.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -76,22 +79,26 @@ public class ExpenseForm extends javax.swing.JFrame {
 
         btnDelete.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(this::btnDeleteActionPerformed);
 
         btnAdd.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnAdd.setText("Add");
+        btnAdd.addActionListener(this::btnAddActionPerformed);
 
         btnUpdate.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(this::btnUpdateActionPerformed);
 
         btnClear.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnClear.setText("Clear");
+        btnClear.addActionListener(this::btnClearActionPerformed);
 
         btnSearch.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnSearch.setText("Search");
 
         txtSearch.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        tblIncome.setModel(new javax.swing.table.DefaultTableModel(
+        tblExpense.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -102,7 +109,12 @@ public class ExpenseForm extends javax.swing.JFrame {
                 "ID", "Date", "Source", "Amount", "Description"
             }
         ));
-        jScrollPane1.setViewportView(tblIncome);
+        tblExpense.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblExpenseMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblExpense);
 
         btnBack.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnBack.setText("Main Menu");
@@ -136,7 +148,7 @@ public class ExpenseForm extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtAmount)
-                            .addComponent(txtSource)
+                            .addComponent(txtCategory)
                             .addComponent(txtDate))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -159,7 +171,7 @@ public class ExpenseForm extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(txtSource, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -213,6 +225,89 @@ public class ExpenseForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // Inside btnAddActionPerformed
+        if (txtDate.getText().isEmpty() || txtCategory.getText().isEmpty() || 
+            txtAmount.getText().isEmpty() || txtDescription.getText().isEmpty()) {
+    
+            JOptionPane.showMessageDialog(this, "All fields must be filled in!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return; // Stops the code from attempting a database insert
+        }
+
+        try {
+            String date = txtDate.getText();
+            String category = txtCategory.getText();
+            double amount = Double.parseDouble(txtAmount.getText());
+            String description = txtDescription.getText();
+
+            // 3. Fire it across the bridge
+            ExpenseDAO.addExpense(date, category, amount, description);
+            ExpenseDAO.loadExpenseData(tblExpense);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Amount must be a valid number!", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int selectedRow = tblExpense.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please click a record in the table first to update it.");
+            return;
+        }
+
+        try {
+            // Extract the hidden ID from column 0 of the table
+            int id = Integer.parseInt(tblExpense.getValueAt(selectedRow, 0).toString());
+            String date = txtDate.getText();
+            String category = txtCategory.getText();
+            double amount = Double.parseDouble(txtAmount.getText());
+            String description = txtDescription.getText();
+
+            ExpenseDAO.updateExpense(id, date, category, amount, description);
+            ExpenseDAO.loadExpenseData(tblExpense); // Refresh the table
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Amount must be a valid number!", "Input Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int selectedRow = tblExpense.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please click a record in the table first to delete it.");
+            return;
+        }
+
+        int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this record?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+
+        if (confirmation == JOptionPane.YES_OPTION) {
+            int id = Integer.parseInt(tblExpense.getValueAt(selectedRow, 0).toString());
+            ExpenseDAO.deleteExpense(id);
+            JOptionPane.showMessageDialog(this, "Record deleted successfully.");
+            ExpenseDAO.loadExpenseData(tblExpense); // Refresh the table
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void tblExpenseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblExpenseMouseClicked
+        int selectedRow = tblExpense.getSelectedRow();
+        if (selectedRow != -1) {
+            // Column 0 is the ID, so we pull data from Columns 1-4
+            txtDate.setText(tblExpense.getValueAt(selectedRow, 1).toString());
+            txtCategory.setText(tblExpense.getValueAt(selectedRow, 2).toString());
+            txtAmount.setText(tblExpense.getValueAt(selectedRow, 3).toString());
+            txtDescription.setText(tblExpense.getValueAt(selectedRow, 4).toString());
+        }
+    }//GEN-LAST:event_tblExpenseMouseClicked
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        txtDate.setText("");
+        txtCategory.setText("");
+        txtAmount.setText("");
+        txtDescription.setText("");
+        tblExpense.clearSelection();
+    }//GEN-LAST:event_btnClearActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -252,11 +347,11 @@ public class ExpenseForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblIncome;
+    private javax.swing.JTable tblExpense;
     private javax.swing.JTextField txtAmount;
+    private javax.swing.JTextField txtCategory;
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtSearch;
-    private javax.swing.JTextField txtSource;
     // End of variables declaration//GEN-END:variables
 }

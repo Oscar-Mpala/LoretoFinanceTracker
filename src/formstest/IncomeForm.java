@@ -19,6 +19,7 @@ public class IncomeForm extends javax.swing.JFrame {
      */
     public IncomeForm() {
         initComponents();
+        IncomeDAO.loadIncomeData(tblIncome);
     }
 
     /**
@@ -85,9 +86,11 @@ public class IncomeForm extends javax.swing.JFrame {
 
         btnUpdate.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(this::btnUpdateActionPerformed);
 
         btnClear.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnClear.setText("Clear");
+        btnClear.addActionListener(this::btnClearActionPerformed);
 
         btnSearch.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnSearch.setText("Search");
@@ -105,6 +108,11 @@ public class IncomeForm extends javax.swing.JFrame {
                 "ID", "Date", "Source", "Amount", "Description"
             }
         ));
+        tblIncome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblIncomeMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblIncome);
 
         btnBack.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -188,7 +196,7 @@ public class IncomeForm extends javax.swing.JFrame {
                             .addComponent(btnSearch))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -202,9 +210,7 @@ public class IncomeForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 13, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -227,28 +233,78 @@ public class IncomeForm extends javax.swing.JFrame {
         }
 
         try {
-            // Verifies the amount is a valid decimal/number
+            String date = txtDate.getText();
+            String category = txtSource.getText();
             double amount = Double.parseDouble(txtAmount.getText());
+            String description = txtDescription.getText();
+
+            // 3. Fire it across the bridge
+            IncomeDAO.addIncome(date, category, amount, description);
+            IncomeDAO.loadIncomeData(tblIncome);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Amount must be a valid number!", "Input Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        // If it passes these checks, Team 3's JDBC insert code will go here later
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // Inside btnDeleteActionPerformed
-        int confirmation = JOptionPane.showConfirmDialog(this, 
-            "Are you sure you want to delete this record?", 
-            "Confirm Deletion", 
-            JOptionPane.YES_NO_OPTION);
+        int selectedRow = tblIncome.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please click a record in the table first to delete it.");
+            return;
+        }
+
+        int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this record?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
 
         if (confirmation == JOptionPane.YES_OPTION) {
-            // Team 3's JDBC delete code will go here later
+            int id = Integer.parseInt(tblIncome.getValueAt(selectedRow, 0).toString());
+            IncomeDAO.deleteIncome(id);
             JOptionPane.showMessageDialog(this, "Record deleted successfully.");
+            IncomeDAO.loadIncomeData(tblIncome); // Refresh the table
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int selectedRow = tblIncome.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please click a record in the table first to update it.");
+            return;
+        }
+
+        try {
+            // Extract the hidden ID from column 0 of the table
+            int id = Integer.parseInt(tblIncome.getValueAt(selectedRow, 0).toString());
+            String date = txtDate.getText();
+            String category = txtSource.getText();
+            double amount = Double.parseDouble(txtAmount.getText());
+            String description = txtDescription.getText();
+
+            IncomeDAO.updateIncome(id, date, category, amount, description);
+            IncomeDAO.loadIncomeData(tblIncome); // Refresh the table
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Amount must be a valid number!", "Input Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        txtDate.setText("");
+        txtSource.setText("");
+        txtAmount.setText("");
+        txtDescription.setText("");
+        tblIncome.clearSelection();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void tblIncomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblIncomeMouseClicked
+        int selectedRow = tblIncome.getSelectedRow();
+        if (selectedRow != -1) {
+            // Column 0 is the ID, so we pull data from Columns 1-4
+            txtDate.setText(tblIncome.getValueAt(selectedRow, 1).toString());
+            txtSource.setText(tblIncome.getValueAt(selectedRow, 2).toString());
+            txtAmount.setText(tblIncome.getValueAt(selectedRow, 3).toString());
+            txtDescription.setText(tblIncome.getValueAt(selectedRow, 4).toString());
+        }
+    }//GEN-LAST:event_tblIncomeMouseClicked
 
     /**
      * @param args the command line arguments
